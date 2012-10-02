@@ -31,9 +31,9 @@ class TransManager(class_default_managers):
         if MULTIDB_SUPPORT:
             kwargs['using'] = qs._db
 
-        trans_query_set_klass = type(
-            '%sTransQuerySet' % self.model.__name__, (TransQuerySet, qs.__class__,), {})
-        queryset = trans_query_set_klass(self.model, **kwargs)
+        trans_query_set_class = type('%sTransQuerySet' % self.model.__name__,
+            (TransQuerySet, qs.__class__,), {})
+        queryset = trans_query_set_class(self.model, **kwargs)
 
         if get_do_autotrans():
             queryset = queryset.set_language(get_language().replace("-", ""))
