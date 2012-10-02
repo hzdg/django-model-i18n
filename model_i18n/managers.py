@@ -30,7 +30,11 @@ class TransManager(class_default_managers):
         # Pass DB attribute if multi-db support is present.
         if MULTIDB_SUPPORT:
             kwargs['using'] = qs._db
-        queryset = TransQuerySet(self.model, **kwargs)
+
+        trans_query_set_klass = type(
+            '%sTransQuerySet' % self.model.__name__, (TransQuerySet, qs.__class__,), {})
+        queryset = trans_query_set_klass(self.model, **kwargs)
+
         if get_do_autotrans():
             queryset = queryset.set_language(get_language().replace("-", ""))
         if hasattr(queryset, 'prefetch_related'):
