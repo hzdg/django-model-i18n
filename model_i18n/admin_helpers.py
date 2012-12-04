@@ -469,6 +469,7 @@ class TranslationModelAdmin(admin.ModelAdmin):
             'app_label': opts.app_label, 'trans': True, 'lang': language,
             'current_language': dict(settings.LANGUAGES)[language],
             'inline_admin_formsets': inline_admin_formsets,
+            'media': media,
             # override some values to provide an useful template
             'add': False, 'change': True,
             'has_change_permission_orig': True,  # backup
