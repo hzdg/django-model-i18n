@@ -105,6 +105,7 @@ class Translator(object):
                 nut = tuple(trans_rule_fields) + base_unique_together
                 trans_unique_together.append(nut)
 
+        # TODO: probably needs to extend master_model meta
         class Meta:
             app_label = master_model._meta.app_label
             db_table = opts.db_table
