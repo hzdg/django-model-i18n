@@ -62,6 +62,10 @@ def setup_admin(master_model, translation_model, adminsite):
     adminsite.register(master_model, madmin)
 
 
+def init_method(self, *args, **kwargs):
+    super(self.__class__, self).__init__(*args, **kwargs)
+
+
 def get_options_base_fields(base):
     attr_names = [
     'list_display',
@@ -95,6 +99,7 @@ def get_options_base_fields(base):
     options = {}
     for attr in attr_names:
         options[attr] = getattr(base, attr)
+    options['__init__'] = init_method
     return options
 
 
