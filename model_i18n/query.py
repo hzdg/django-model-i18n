@@ -6,6 +6,7 @@ from django.db.models.sql import Query
 from django.db.models.sql.where import AND
 from model_i18n.conf import ATTR_BACKUP_SUFFIX, CURRENT_LANGUAGES
 from model_i18n.utils import get_master_language
+from django.utils.translation import get_language
 
 
 QN = connection.ops.quote_name  # quote name
@@ -127,6 +128,17 @@ class TransQuerySet(QuerySet):
         self.languages = set()
         self.lang = None
         super(TransQuerySet, self).__init__(*args, **kwargs)
+        self.update_language(get_language().replace("-", ""))
+
+    def update_language(self, language):
+        languages = list(self.languages)
+        languages.append(language)
+        self.languages = set(languages)
+        self.lang = language
+
+        # if language and (language not in languages or \
+        # if language != get_master_language(self.model):
+        self.query.add_q(TransJoin(self.model, self.lang))
 
     def set_language(self, language):
         """ Defines/switch query set implicit language, attributes on
