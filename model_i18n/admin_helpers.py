@@ -125,7 +125,7 @@ class TranslationModelAdmin(admin.ModelAdmin):
             url(r'^$', self.changelist_view, name='%s_%s_changelist' % info),
             url(r'^(?P<object_id>.*)/(?P<language>[a-z]{2})/$',
                 self.i18n_change_view),
-            url(r'^(?P<object_id>.*)/(?P<language>[a-z]{2}-[a-z]{2})/$',
+            url(r'^(?P<object_id>.*)/(?P<language>[a-z]{2}-[a-zA-Z]{2})/$',
                 self.i18n_change_view),
             urls[-1])
 
