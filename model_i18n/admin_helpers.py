@@ -165,7 +165,7 @@ class TranslationModelAdmin(admin.ModelAdmin):
         """
         queryset = self.i18n_queryset(request)
         model = queryset.model
-        args = {'_language': language.replace("-", ""), '_master': master}
+        args = {'_language': language.replace("-", "").lower(), '_master': master}
         try:
             #object_id = model._meta.pk.to_python(object_id)
             return queryset.get(**args)
@@ -306,7 +306,7 @@ class TranslationModelAdmin(admin.ModelAdmin):
                 Tmodel = obj.__class__._translation_model
                 defaults = {
                     '_master': self.instance,
-                    '_language': self.lang.replace("-", "")
+                    '_language': self.lang.replace("-", "").lower()
                 }
                 try:
                     aux = Tmodel.objects.get(**defaults)
